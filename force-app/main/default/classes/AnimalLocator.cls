@@ -7,6 +7,7 @@ public class AnimalLocator {
         HttpResponse response=http.send(request);
                     System.debug('Received the following animals:'+response.getBody());
                     System.debug('Received the following animals:'+response.getBody());
+                    System.debug('Received the following animals:'+response.getBody());
 
        Map<String, object> results = (Map<String, object>) JSON.deserializeUntyped(response.getBody());
                     System.debug('results::' + results );
