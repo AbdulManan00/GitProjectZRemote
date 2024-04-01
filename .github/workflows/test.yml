@@ -1,5 +1,4 @@
 name: Tests Run on Develop Pull Request
-
 on:
   pull_request:
     branches: [develop]
@@ -12,20 +11,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.2
-
       - run: |
           git fetch --prune --unshallow
-
       - name: Populate auth file with SFDX_URL secret of integration org
         shell: bash
         run: echo "${{ secrets.SFDX_AUTH_URL }}" > ./SFDX_AUTH_URL.txt
-
-
       - name: Authenticate with Salesforce
         uses: forcedotcom/salesforcedx-actions@master
         with:
           args: force:auth:sfdxurl:store --sfdx-url-file=./SFDX_AUTH_URL.txt --alias=Develop
-
       - name: Run Apex tests
         uses: forcedotcom/salesforcedx-actions@master
         with:
