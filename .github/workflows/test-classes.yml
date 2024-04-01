@@ -1,6 +1,7 @@
 name: Run tests on Develop Pull Request
 
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - develop
