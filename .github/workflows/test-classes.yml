@@ -24,9 +24,9 @@ jobs:
       - name: Authenticate with Salesforce
         uses: forcedotcom/salesforcedx-actions@master
         with:
-          args: force:auth:sfdxurl:store --sfdx-url-file=./SFDX_AUTH_URL.txt --alias=Develop
+          args: force:auth:sfdxurl:store --sfdx-url-file=./SFDX_AUTH_URL.txt --alias=dev
 
       - name: Run Apex tests
         uses: forcedotcom/salesforcedx-actions@master
         with:
-          args: apex:test:run -l RunLocalTests -w 10 -o Develop
+          args: apex:test:run -l RunLocalTests -w 10 -o dev
