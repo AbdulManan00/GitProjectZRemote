@@ -14,6 +14,7 @@ public class AnimalLocator {
             string animal = string.valueof(animals.get('name'));
             System.debug('Animal::' + animal );
             System.debug('Animallllllllllllll::' + animal );
+            System.debug('Animallllllllllllll::' + animal );
           
         return animal;
     }
