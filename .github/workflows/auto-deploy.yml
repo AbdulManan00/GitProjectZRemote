@@ -27,6 +27,8 @@ jobs:
       - name: Deploy Files to Staging
         uses: marcelblijleven/salesforcedx-actions@master
         with:
-          args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunLocalTests'
+          args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunSpecifiedTests -r SimpleClassTest'
+
+       #   args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunLocalTests'
       
       - run: $([ $? -eq 0 ] || exit 1)
