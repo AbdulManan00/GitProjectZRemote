@@ -29,4 +29,6 @@ jobs:
       with:
         args: 'force:source:deploy -c -p ''"${{ env.files_to_deploy }}"'' -l RunSpecifiedTests -r SimpleClassTest -u ${{ secrets.USERNAME }}'
        # args: 'force:source:deploy -c -p ''"${{ env.files_to_deploy }}"'' -u ${{ secrets.USERNAME }} -l RunLocalTests'
+
+        args: 'force:source:deploy -c -p ''"${{ env.files_to_deploy }}"'' -u ${{ secrets.USERNAME }} -l RunLocalTests'
     - run: $([ $? -eq 0 ]  || exit 1)
