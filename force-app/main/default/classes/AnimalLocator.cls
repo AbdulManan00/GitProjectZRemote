@@ -13,6 +13,10 @@ public class AnimalLocator {
             System.debug('Received the following animals:' + animals );
             string animal = string.valueof(animals.get('name'));
             System.debug('Animal::' + animal );
+            System.debug('Animallllllllllllll::' + animal );
+            System.debug('Animallllllllllllll::' + animal );
+            System.debug('Animallllllllllllll::' + animal );
+            System.debug('Animallllllllllllll::' + animal );
           
         return animal;
     }
