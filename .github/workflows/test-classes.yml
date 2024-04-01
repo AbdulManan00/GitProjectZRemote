@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.2
-
-
-
       - run: |
           git fetch --prune --unshallow
 
