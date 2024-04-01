@@ -7,11 +7,6 @@
 .sfdx/
 .localdevserver/
 deploy-options.json
-<<<<<<< HEAD
-# Ignore file1.yml in develop branch
-=======
->>>>>>> staging
-- staging/.github/workflows/auto-deploy.yml
 
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
