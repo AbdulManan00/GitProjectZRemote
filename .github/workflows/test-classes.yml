@@ -1,4 +1,4 @@
-name: Run tests on Develop Pull Request
+name: testing
 
 on:
   workflow_dispatch:
