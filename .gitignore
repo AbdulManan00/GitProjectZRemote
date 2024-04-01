@@ -7,7 +7,6 @@
 .sfdx/
 .localdevserver/
 deploy-options.json
-- staging/.github/workflows/auto-deploy.yml
 
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
