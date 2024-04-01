@@ -1,67 +1,32 @@
-name: Run tests on Develop Pull Request
+name: Tests Run on Develop Pull Request
+
 on:
-  workflow_dispatch:
   pull_request:
-    # types: [opened, synchronize, reopened]
     branches: [develop]
     paths:
       - "force-app/**"
+  workflow_dispatch:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.1.2
-        with:
-          fetch-depth: 0
-      # Install Node
-      - name: Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'latest'
-          check-latest: true
-      # Install Salesforce CLI
-      - name: Install Salesforce CLI
-        run: |
-          sudo npm install @salesforce/cli --global
-      - name: 'Installing sfdx git delta'
-        run: |
-            echo y | sfdx plugins:install sfdx-git-delta
-            sfdx plugins
-      - name: "Populate auth file with SFDX_URL secret of integration org"
+
+      - run: |
+          git fetch --prune --unshallow
+
+      - name: Populate auth file with SFDX_URL secret of integration org
         shell: bash
-        run: |
-          echo ${{ secrets.SFDX_AUTH_URL}} > ./SFDX_AUTH_URL.txt
-      - name: 'Authenticate to Org'
-        run: sfdx auth:sfdxurl:store -f ./SFDX_AUTH_URL.txt -s -a integration
-      - name: 'Create delta packages for new, modified or deleted metadata'
-        run: |
-            mkdir changed-sources
-            sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output . --source force-app/
-      - name: 'Read PR Body'
-        env:
-          PR_BODY: ${{github.event.pull_request.body}}
-        run: |
-            echo $PR_BODY > ./pr_body.txt
-            node ./parsePR.js
-            TESTS=$(cat testsToRun.txt)
-            echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
-      - name: 'Deploy with specified tests'
-        if: ${{ env.APEX_TESTS != 'all' }}
-        run: |
-            echo ${{env.APEX_TESTS}}
-            sfdx force:source:deploy -x package/package.xml --testlevel RunSpecifiedTests --runtests ${{env.APEX_TESTS}} --json
-      - name: 'Deploy with All tests'
-        if: ${{ env.APEX_TESTS == 'all' }}
-        run: |
-            sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml --testlevel RunLocalTests --json
-        # - name: 'Deploy the entire branch to Integration org'
-        # run: sfdx force:source:deploy -x package/package.xml --postdestructivechanges destructiveChanges/destructiveChanges.xml
-      # - name: Authenticate with Salesforce
-      #   uses: forcedotcom/salesforcedx-actions@master
-      #   with:
-      #     args: force:auth:sfdxurl:store --sfdx-url-file=./SFDX_AUTH_URL.txt --alias=Develop
-      # - name: Run Apex tests
-      #   uses: forcedotcom/salesforcedx-actions@master
-      #   with:
-      #     args: apex run test -l RunLocalTests -w 10 -o Develop
+        run: echo "${{ secrets.SFDX_AUTH_URL }}" > ./SFDX_AUTH_URL.txt
+
+
+      - name: Authenticate with Salesforce
+        uses: forcedotcom/salesforcedx-actions@master
+        with:
+          args: force:auth:sfdxurl:store --sfdx-url-file=./SFDX_AUTH_URL.txt --alias=Develop
+
+      - name: Run Apex tests
+        uses: forcedotcom/salesforcedx-actions@master
+        with:
+          args: apex:test:run -l RunLocalTests -w 10 -o Develop
