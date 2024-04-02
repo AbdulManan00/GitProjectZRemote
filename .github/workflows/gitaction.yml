@@ -1,4 +1,4 @@
-name: Auto_Deploy_To_Staging_Org
+name: Auto Deplloy to Staging
 on:
   pull_request:
     branches: [staging]
