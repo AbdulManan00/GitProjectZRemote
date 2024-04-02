@@ -8,6 +8,7 @@ public class SimpleClass {
     // Method to calculate the sum of two numbers
     public static Integer addNumbers(Integer num1, Integer num2) {
         System.debug('MAnan');
+        System.debug('andbkh');
         return num1 + num2;
     }
 
