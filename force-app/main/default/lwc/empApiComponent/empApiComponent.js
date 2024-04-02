@@ -28,8 +28,8 @@ export default class EmpApiLWC extends LightningElement {
 
     // Handles subscribe button click
     handleSubscribe() {
+        const ref=this;
         const messageCallback = function(response) {
-            const ref=this;
             const payload = response.data.payload;
             const changeEventHeader = payload.ChangeEventHeader;
             const formattedMessage = {
