@@ -1,4 +1,4 @@
-import { LightningElement } from 'lwc';
+import { LightningElement , track} from 'lwc';
 import {
     subscribe,
     unsubscribe,
@@ -8,7 +8,8 @@ import {
 } from 'lightning/empApi';
 
 export default class EmpApiLWC extends LightningElement {
-    channelName = '/event/Test__e';
+    @track msgBody = '';
+    channelName = '/data/Student__ChangeEvent';
     isSubscribeDisabled = false;
     isUnsubscribeDisabled = !this.isSubscribeDisabled;
 
@@ -27,19 +28,48 @@ export default class EmpApiLWC extends LightningElement {
 
     // Handles subscribe button click
     handleSubscribe() {
-        // Callback invoked whenever a new event message is received
-        const messageCallback = function (response) {
+        const messageCallback = function(response) {
+            const ref=this;
+            const payload = response.data.payload;
+            const changeEventHeader = payload.ChangeEventHeader;
+            const formattedMessage = {
+                LastModifiedDate: payload.LastModifiedDate,
+                Name: payload.Name,
+                ChangeEventHeader: {
+                    commitNumber: changeEventHeader.commitNumber,
+                    commitUser: changeEventHeader.commitUser,
+                    sequenceNumber: changeEventHeader.sequenceNumber,
+                    entityName: changeEventHeader.entityName,
+                    changeType: changeEventHeader.changeType,
+                    changedFields: changeEventHeader.changedFields,
+                    changeOrigin: changeEventHeader.changeOrigin,
+                    transactionKey: changeEventHeader.transactionKey,
+                    commitTimestamp: changeEventHeader.commitTimestamp,
+                    recordIds: changeEventHeader.recordIds
+                }
+            };
+            ref.msgBody = JSON.stringify(formattedMessage, null, 2);
+            console.log("###New message received ", ref.msgBody);
             console.log('New message received: ', JSON.stringify(response));
             // Response contains the payload of the new message received
         };
+        
+
+
+
+        // const ref=this;
+        // // Callback invoked whenever a new event message is received
+        // const messageCallback = function (response) {
+        //     ref.msgBody = JSON.stringify(response.data.payload);
+        //     console.log("###Newyfyfjjjyjy message received ",JSON.stringify(response.data.payload.Name));
+        //     console.log('New message received: ', JSON.stringify(response));
+        //     // Response contains the payload of the new message received
+        // };
 
         // Invoke subscribe method of empApi. Pass reference to messageCallback
         subscribe(this.channelName, -1, messageCallback).then((response) => {
             // Response contains the subscription information on subscribe call
-            console.log(
-                'Subscription request sent to: ',
-                JSON.stringify(response.channel)
-            );
+            console.log('Subscription request sent to: ',JSON.stringify(response.channel));
             this.subscription = response;
             this.toggleSubscribeButton(true);
         });
