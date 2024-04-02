@@ -23,11 +23,16 @@ jobs:
         uses: marcelblijleven/salesforcedx-actions@master
         with:
           args: force:auth:sfdxurl:store --sfdx-url-file=./SFDC_SUREBIRD_STAG_AUTH_URL.txt --alias=staging
-      
+
       - name: Deploy Files to Staging
         uses: marcelblijleven/salesforcedx-actions@master
         with:
-          args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunSpecifiedTests -r SimpleClassTest'
+          args: 'force:source:deploy -c -p ''"${{ env.files_to_deploy }}"'' -u ${{ secrets.USERNAME }} -l RunSpecifiedTests -r SimpleClassTest'
+        
+      
+        # uses: marcelblijleven/salesforcedx-actions@master
+        # with:
+        #   args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunSpecifiedTests -r SimpleClassTest'
 
        #   args: 'force:source:deploy -c -p "${{ env.files_to_deploy }}" -u ${{ secrets.USERNAME }} -l RunLocalTests'
       
