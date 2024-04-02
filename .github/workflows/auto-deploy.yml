@@ -18,7 +18,7 @@ jobs:
       - name: prepare_deploy_data to staging
         shell: bash
         run: |
-          echo ${{ secrets.URL }} > ./SFDC_SUREBIRD_STAG_AUTH_URL.txt
+          echo ${{ secrets.SFDX_AUTH_URL }} > ./SFDC_SUREBIRD_STAG_AUTH_URL.txt
           files_to_deploy=$(git --no-pager diff --name-only --diff-filter=d origin/${{ github.base_ref }} -- force-app | tr '\n' ',' | sed 's/,/, /g' | sed 's/\(.*\),/\1 /')
           # Trim trailing whitespace from file paths
           files_to_deploy=$(echo "${files_to_deploy}" | sed -e 's/[[:space:]]*$//')
