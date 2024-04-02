@@ -33,7 +33,7 @@ jobs:
         with:
           args: 'force:source:deploy -c -p ''"${{ env.files_to_deploy }}"'' -u ${{ secrets.USERNAME }} -l RunSpecifiedTests -r SimpleClassTest'
 
-      - run: $([ $? -eq 0 ] || exit 1)
+      # - run: $([ $? -eq 0 ] || exit 1)ee
 
         # uses: marcelblijleven/salesforcedx-actions@master
         # with:
