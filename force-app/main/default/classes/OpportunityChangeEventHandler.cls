@@ -1,12 +1,11 @@
 public with sharing class OpportunityChangeEventHandler {
   public static void handleOpportunityChangeEvent(List<OpportunityChangeEvent> newEvents) {
     List<Task> tasks = new List<Task>();
-    System.debug('newEvnet::::'+newEvents);
+    
   // Iterate through each event message.
   for (OpportunityChangeEvent event : newEvents) {
     // Get some event header fields
     EventBus.ChangeEventHeader header = event.ChangeEventHeader;
-    System.debug('header:::'+header);
 
     if (header.changetype == 'UPDATE' && event.isWon == true) {
         System.debug('event.iswon::'+event.isWon);
